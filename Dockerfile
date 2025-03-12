@@ -29,7 +29,7 @@ RUN yarn install
 RUN corepack enable
 
 # Set the correct Yarn version from package.json
-RUN corepack prepare yarn@9.1.1 --activate
+RUN corepack prepare yarn@stable --activate
 
 # Set working directory for frontend
 WORKDIR /app
