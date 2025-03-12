@@ -30,7 +30,7 @@ RUN corepack prepare yarn@9.1.1 --activate
 WORKDIR /app
 
 # Copy package.json and install dependencies
-COPY package.json yarn.lock ./
+COPY frontend/package.json yarn.lock ./
 RUN yarn install
 
 # Copy the rest of the project files
