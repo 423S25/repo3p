@@ -29,9 +29,6 @@ WORKDIR /app
 # Copy package.json and pnpm-lock.yaml
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-# Ensure correct pnpm version is used (via Corepack)
-RUN pnpm --version  # Debugging step (optional)
-
 # Install frontend dependencies using pnpm
 RUN pnpm install --frozen-lockfile
 
