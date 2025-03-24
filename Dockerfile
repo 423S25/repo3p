@@ -27,7 +27,7 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 # Copy package.json and install dependencies
-COPY frontend/package.json pnpm-lock.yaml ./
+COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
 # Ensure correct pnpm version is used
 RUN pnpm --version  # Debugging step (optional)
