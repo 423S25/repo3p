@@ -20,14 +20,17 @@ COPY supervisord.conf /etc/supervisord.conf
 # Install Node.js for Volto frontend
 FROM node:20
 
-# Enable Corepack globally to manage pnpm
-RUN corepack enable
+# Enable Corepack globally to manage pnpm and explicitly set pnpm version
+RUN corepack enable && corepack prepare pnpm@7.11.0 --activate
 
 # Set working directory for frontend
 WORKDIR /app
 
 # Copy package.json and pnpm-lock.yaml
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
+
+# Ensure correct pnpm version is used (via Corepack)
+RUN pnpm --version  # Debugging step (optional)
 
 # Install frontend dependencies using pnpm
 RUN pnpm install --frozen-lockfile
