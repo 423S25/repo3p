@@ -20,18 +20,20 @@ COPY supervisord.conf /etc/supervisord.conf
 # Install Node.js for Volto frontend
 FROM node:20
 
-# Install a stable version of Yarn (e.g., 1.22.19)
-RUN npm install -g yarn@1.22.19 --force
+# Install pnpm globally
+RUN npm install -g pnpm
 
 # Set working directory for frontend
 WORKDIR /app
 
 # Copy package.json and install dependencies
-COPY frontend/package.json yarn.lock ./
+COPY frontend/package.json pnpm-lock.yaml ./
 
-# Ensure correct Yarn version is used
-RUN yarn --version  # Debugging step (optional)
-RUN yarn install --frozen-lockfile
+# Ensure correct pnpm version is used
+RUN pnpm --version  # Debugging step (optional)
+
+# Use pnpm to install dependencies
+RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the project files
 COPY . .
@@ -40,7 +42,7 @@ COPY . .
 COPY frontend /app
 
 # Build the frontend
-RUN yarn build
+RUN pnpm build
 
 # Expose Volto’s default port
 EXPOSE 3000
