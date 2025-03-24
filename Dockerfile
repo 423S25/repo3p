@@ -33,7 +33,6 @@ WORKDIR /app
 
 # Copy package.json and install dependencies
 COPY frontend/package.json yarn.lock ./
-RUN yarn install
 
 # Copy the rest of the project files
 COPY . .
