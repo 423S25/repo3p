@@ -21,7 +21,7 @@ COPY supervisord.conf /etc/supervisord.conf
 FROM node:20
 
 # Install a stable version of Yarn (e.g., 1.22.19)
-RUN npm install -g yarn@1.22.19
+RUN npm install -g yarn@1.22.19 --force
 
 # Set working directory for frontend
 WORKDIR /app
