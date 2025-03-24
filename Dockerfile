@@ -20,8 +20,8 @@ COPY supervisord.conf /etc/supervisord.conf
 # Install Node.js for Volto frontend
 FROM node:20
 
-# Install a specific version of Yarn
-RUN npm install -g yarn@9.1.1
+# Install a stable version of Yarn (e.g., 1.22.19)
+RUN npm install -g yarn@1.22.19
 
 # Set working directory for frontend
 WORKDIR /app
