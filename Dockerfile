@@ -20,8 +20,14 @@ COPY supervisord.conf /etc/supervisord.conf
 # Install Node.js for Volto frontend
 FROM node:20
 
-# Enable Corepack globally to manage pnpm and explicitly set pnpm version
-RUN corepack enable && corepack prepare pnpm@7.11.0 --activate
+# Enable Corepack globally to manage pnpm
+RUN corepack enable
+
+# Set environment variable to allow unsafe custom URLs for pnpm
+ENV COREPACK_ENABLE_UNSAFE_CUSTOM_URLS=1
+
+# Install pnpm globally (without forcing version)
+RUN npm install -g pnpm
 
 # Set working directory for frontend
 WORKDIR /app
