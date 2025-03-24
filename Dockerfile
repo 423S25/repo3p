@@ -20,11 +20,10 @@ CMD ["start-plone"] &
 # Install Node.js for Volto frontend
 FROM node:20
 
-RUN yarn install
-
-
 # Enable Corepack globally
 RUN corepack enable
+
+RUN yarn install
 
 # Set the correct Yarn version from package.json
 RUN corepack prepare yarn@stable --activate
