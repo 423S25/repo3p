@@ -1,7 +1,7 @@
-# Use Plone backend as the base image
+# Use a base image for Python (Plone backend)
 FROM plone/plone-backend:6.0
 
-# Install necessary backend dependencies
+# Install necessary backend dependencies (if any)
 RUN pip install -U pip setuptools wheel
 
 # Set environment variables for Plone
@@ -11,32 +11,42 @@ ENV SITE_ID=Plone \
     ADMIN_PASSWORD=admin123 \
     ADDONS=""
 
-# Expose Plone’s default port
+# Expose Plone's default port
 EXPOSE 8080
 
-# Install Node.js and Yarn for Volto frontend
-RUN apt-get update && apt-get install -y curl && \
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g yarn
+# Copy and configure supervisord to manage both Plone and Volto
+COPY supervisord.conf /etc/supervisord.conf
+
+# Install Node.js for Volto frontend
+FROM node:20
+
+# Enable Corepack globally
+RUN corepack enable
+
+# Set the correct Yarn version from package.json
+RUN corepack prepare yarn@npm:9.1.1 --activate
 
 # Set working directory for frontend
 WORKDIR /app
 
-# Copy frontend package.json and install dependencies
+# Copy package.json and install dependencies
 COPY frontend/package.json yarn.lock ./
+
+# Ensure correct Yarn version is used
+RUN yarn --version  # Debugging step (optional)
 RUN yarn install --frozen-lockfile
 
-# Copy the frontend code and build it
+# Copy the rest of the project files
+COPY . .
+
+# Copy Volto project files
 COPY frontend /app
+
+# Build the frontend
 RUN yarn build
 
 # Expose Volto’s default port
 EXPOSE 3000
 
-# Install supervisord to run both services
-RUN apt-get install -y supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 # Start both Plone and Volto using supervisord
-CMD ["supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]
