@@ -20,8 +20,6 @@ CMD ["start-plone"] &
 # Install Node.js for Volto frontend
 FROM node:20
 
-RUN npm install -g yarn
-
 RUN yarn install
 
 
