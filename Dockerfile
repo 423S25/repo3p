@@ -20,11 +20,8 @@ COPY supervisord.conf /etc/supervisord.conf
 # Install Node.js for Volto frontend
 FROM node:20
 
-# Enable Corepack globally
-RUN corepack enable
-
-# Set the correct Yarn version from package.json
-RUN corepack prepare yarn@npm:9.1.1 --activate
+# Install a specific version of Yarn
+RUN npm install -g yarn@9.1.1
 
 # Set working directory for frontend
 WORKDIR /app
