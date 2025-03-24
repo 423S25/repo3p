@@ -23,16 +23,13 @@ FROM node:20
 # Enable Corepack globally to manage pnpm
 RUN corepack enable
 
-# Install pnpm globally
-RUN npm install -g pnpm
-
 # Set working directory for frontend
 WORKDIR /app
 
 # Copy package.json and pnpm-lock.yaml
 COPY frontend/package.json frontend/pnpm-lock.yaml ./
 
-# Ensure correct pnpm version is used
+# Ensure correct pnpm version is used (via Corepack)
 RUN pnpm --version  # Debugging step (optional)
 
 # Install frontend dependencies using pnpm
