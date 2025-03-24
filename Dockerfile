@@ -27,7 +27,7 @@ RUN corepack enable
 ENV COREPACK_ENABLE_UNSAFE_CUSTOM_URLS=1
 
 # Install pnpm globally (without forcing version)
-RUN npm install -g pnpm
+RUN npm install -g pnpm --force
 
 # Set working directory for frontend
 WORKDIR /app
